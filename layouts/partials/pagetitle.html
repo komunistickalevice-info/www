@@ -2,5 +2,7 @@
 {{- $title := $p.Title -}}
 {{- if eq $p.Kind "taxonomy" -}}
   {{- with index site.Data.labels.taxonomy $p.Data.Plural }}{{ $title = . }}{{ end -}}
+{{- else if eq $p.Kind "term" -}}
+  {{- with $p.Data.Term }}{{ $title = . }}{{ end -}}
 {{- end -}}
 {{- $title -}}

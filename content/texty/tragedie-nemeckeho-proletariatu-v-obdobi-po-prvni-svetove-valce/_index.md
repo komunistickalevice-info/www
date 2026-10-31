@@ -12,9 +12,6 @@ source_citation  = "Il programma comunista č. 13-17, 20, červen až říjen 19
 date             = "2023-02-18"
 +++
 
-![PDF v priprave](
-/img/tragedie-nemeckeho-proletariatu-v-obdobi-po-prvni-svetove-valce.jpg)
-
 V několika reportech z předešlých všeobecných setkání strany, ze kterých
 nebylo bohužel možné zveřejnit ucelený report, jsme se snažili znovu
 přikročit k dramatickému historickému cyklu, ve kterém německá sociální
