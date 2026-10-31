@@ -1,0 +1,21 @@
+{{ define "main" }}
+<h2>{{ .Title }}</h2>
+{{ .Content }}
+{{- $texts := partial "sort-by-edtf.html" (.Site.GetPage "/texty").Pages }}
+{{- $prev := "__none__" }}
+{{- $open := false }}
+{{- range $texts }}
+  {{- $label := "" }}
+  {{- with .Params.original_date }}{{ $label = partial "edtf-year.html" (dict "s" .) }}{{ end }}
+  {{- if eq $label "" }}{{ $label = site.Data.labels.chronology.unknown }}{{ end }}
+  {{- if ne $label $prev }}
+    {{- if $open }}</ul>{{ end }}
+<h3 class="year">{{ $label }}</h3>
+<ul class="textlist">
+    {{- $open = true }}
+    {{- $prev = $label }}
+  {{- end }}
+{{ partial "textlist.html" (dict "page" . "hideDate" true) }}
+{{- end }}
+{{- if $open }}</ul>{{ end }}
+{{ end }}

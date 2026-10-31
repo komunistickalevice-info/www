@@ -1,0 +1,22 @@
+<header class="masthead">
+<h1 class="masthead__title"><a href="{{ .Site.Home.RelPermalink }}">{{ .Site.Title }}</a></h1>
+{{- with .Site.Params.description }}
+<p class="masthead__tagline">{{ . }}</p>
+{{- end }}
+<input type="checkbox" id="menu-toggle" class="masthead__toggle" aria-label="{{ site.Data.labels.aria.menu_toggle }}">
+<label for="menu-toggle" class="masthead__burger"><span aria-hidden="true">☰</span> {{ site.Data.labels.menu.toggle }}</label>
+<nav class="masthead__nav masthead__nav--main" aria-label="{{ site.Data.labels.aria.main }}">
+<ul>
+{{- range .Site.Menus.main }}
+<li><a href="{{ .URL | relURL }}">{{ .Name }}</a></li>
+{{- end }}
+</ul>
+</nav>
+<nav class="masthead__nav masthead__nav--meta" aria-label="{{ site.Data.labels.aria.browse }}">
+<ul>
+{{- range .Site.Menus.meta }}
+<li><a href="{{ .URL | relURL }}">{{ .Name }}</a></li>
+{{- end }}
+</ul>
+</nav>
+</header>

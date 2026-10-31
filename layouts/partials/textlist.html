@@ -1,0 +1,12 @@
+{{- /* Jeden záznam v seznamu textů.
+       Vstup: buď stránka, nebo (dict "page" <stránka> "hideDate" true "hideGroup" true).
+       hideDate/hideGroup skryjí datum / štítek skupiny (kde je zřejmý z nadpisu). */ -}}
+{{- $p := . -}}
+{{- $hideDate := false -}}
+{{- $hideGroup := false -}}
+{{- if reflect.IsMap . -}}{{- $p = .page -}}{{- $hideDate = .hideDate -}}{{- $hideGroup = .hideGroup -}}{{- end -}}
+{{- $ctx := $p -}}
+<li>
+<a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
+<span class="detail">&mdash; {{ delimit $p.Params.authors ", " }}{{ if not $hideDate }}{{ with $p.Params.original_date }}, {{ partial "original-date.html" (dict "p" $ctx "mode" "short") }}{{ end }}{{ end }}{{ if not $hideGroup }}{{ with $p.Params.groups }} <span class="skupina">[{{ partial "skupina-label.html" (dict "id" (index . 0) "ctx" $ctx) }}]</span>{{ end }}{{ end }}</span>
+</li>

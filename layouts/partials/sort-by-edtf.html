@@ -1,0 +1,13 @@
+{{- /* Seřadí stránky podle EDTF data original_date od nejstarší po nejnovější.
+       Vstup: kolekce stránek (např. .Pages). Vrací seřazený slice.
+       Texty bez data se řadí na konec. */ -}}
+{{- $items := slice -}}
+{{- range . -}}
+  {{- $k := 99999999999 -}}
+  {{- with .Params.original_date -}}{{ $k = partial "edtf-key.html" (dict "s" .) }}{{- end -}}
+  {{- $items = $items | append (dict "key" $k "p" .) -}}
+{{- end -}}
+{{- $sorted := sort $items "key" "asc" -}}
+{{- $out := slice -}}
+{{- range $sorted -}}{{ $out = $out | append .p }}{{- end -}}
+{{- return $out -}}

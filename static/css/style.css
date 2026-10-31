@@ -1,0 +1,369 @@
+/* ==========================================================================
+   Archiv textů — old-school newspaper look, EB Garamond, minimal & responsive
+   Funguje i bez CSS a v textových prohlížečích (w3m, lynx).
+   ========================================================================== */
+
+/* --- EB Garamond (SIL OFL) — vlastní hosting, viz static/fonts/OFL.txt --- */
+@font-face {
+  font-family: "EB Garamond";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/eb-garamond-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "EB Garamond";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/eb-garamond-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "EB Garamond";
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/eb-garamond-italic-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "EB Garamond";
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/eb-garamond-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* Datumový sloupec drží text široký, ale na 4K ne přes celou obrazovku. */
+  --page: 74rem;
+  --serif: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Palatino,
+           "Book Antiqua", Garamond, Georgia, "Times New Roman", Times, serif;
+  --ink: #212121;
+  --ink-soft: #757575;
+  --paper: #ffffff;
+  --paper-2: #ffffff;
+  --rule: #212121;
+  --rule-soft: #e0e0e0;
+  --accent: #cc0000;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-size: 112.5%;            /* ~18px, Garamond má menší x-výšku */
+  background: var(--paper-2);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0 1.25rem;
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+  border-top: 3px solid var(--rule);
+}
+
+header, main, footer {
+  max-width: var(--page);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+a:hover, a:focus { text-decoration-thickness: 2px; }
+
+/* --- Přeskočení na obsah --- */
+.skip { position: absolute; left: -9999px; }
+.skip:focus {
+  position: static; display: inline-block;
+  background: var(--paper-2); padding: .25rem .5rem; margin: .5rem 0;
+  border: 1px solid var(--rule);
+}
+
+/* --- Hlavička / novinový masthead --- */
+.masthead {
+  text-align: center;
+  padding-top: 1rem;
+  border-bottom: 3px double var(--rule);
+}
+.masthead__title {
+  font-variant: small-caps;
+  font-size: clamp(1.4rem, 3.2vw, 1.95rem);
+  font-weight: 200;
+  line-height: 1.1;
+  letter-spacing: .02em;
+  margin: .3rem 0 .2rem;
+}
+.masthead__title a { color: inherit; text-decoration: none; }
+.masthead__tagline {
+  margin: .25rem 0 .75rem;
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: .02em;
+  line-height: 1.25;
+}
+.masthead__nav--main { border-top: 1px solid var(--rule); }
+.masthead__nav--meta { border-top: 1px solid var(--rule-soft); }
+.masthead__nav ul {
+  list-style: none;
+  margin: 0;
+  padding: .45rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .15rem 1.1rem;
+  font-variant: small-caps;
+  letter-spacing: .07em;
+  font-size: 1.05rem;
+}
+.masthead__nav--meta ul {
+  padding: .3rem 0;
+  font-size: .92rem;
+  color: var(--ink-soft);
+}
+.masthead__nav a { color: var(--ink); text-decoration: none; }
+.masthead__nav--meta a { color: var(--ink-soft); }
+.masthead__nav a:hover, .masthead__nav a:focus { text-decoration: underline; color: var(--accent); }
+
+/* Hamburger (malé obrazovky) — čistě CSS, bez JavaScriptu. */
+.masthead__burger { display: none; cursor: pointer; user-select: none; }
+.masthead__toggle {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* --- Drobečková navigace --- */
+.crumbs {
+  margin: .25rem 0 .5rem;
+  font-size: .9rem;
+  color: var(--ink-soft);
+}
+.crumbs ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  font-variant: small-caps;
+  letter-spacing: .05em;
+}
+.crumbs li { display: inline; }
+.crumbs li + li::before { content: "\203A"; margin: 0 .45rem; color: var(--rule-soft); }
+.crumbs a { color: var(--ink-soft); }
+.crumbs a:hover, .crumbs a:focus { color: var(--accent); }
+.crumbs [aria-current="page"] { color: var(--ink); }
+.crumbs + h2,
+.crumbs + article h2:first-child { margin-top: .5rem; }
+
+/* --- Obsah --- */
+main { padding: 1.5rem 0 3rem; }
+
+h2 {
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 2.25rem 0 .75rem;
+  padding-bottom: .15rem;
+  border-bottom: 1px solid var(--rule);
+  letter-spacing: .01em;
+}
+main > h2:first-child { margin-top: .5rem; }
+h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-variant: small-caps;
+  letter-spacing: .05em;
+  margin: 1.5rem 0 .5rem;
+}
+
+/* Nadpisy let v přehledu Chronologicky. */
+.year {
+  margin: 1.8rem 0 .3rem;
+  padding-bottom: .15rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+p { margin: 0 0 .7rem; }
+
+/* Úvodní odstavec stránky/textu trochu větší, jako podtrh v novinách. */
+.intro { font-size: 1.15rem; }
+.intro p, main > h2 + p { text-align: justify; hyphens: auto; }
+
+/* Tělo kapitoly — zarovnané, s odsazením prvních řádků a iniciálou. */
+.obsah-textu { font-size: 1.15rem; }
+.obsah-textu p {
+  text-align: justify;
+  hyphens: auto;
+  text-indent: 1.4em;
+  margin: 0 0 .25rem;
+}
+.obsah-textu p:first-of-type { text-indent: 0; }
+.obsah-textu > p:first-of-type::first-letter {
+  float: left;
+  font-size: 3.4em;
+  line-height: .78;
+  font-weight: 600;
+  padding: .04em .06em 0 0;
+}
+.uvod { font-size: 1.1rem; }
+.uvod p { text-align: justify; hyphens: auto; }
+
+/* --- Předmluva / úvodní komentář k textu (ze souboru _predmluva.md) --- */
+.predmluva {
+  margin: 1.25rem 0 1.75rem;
+  padding: .85rem 1.15rem;
+  border-left: 3px solid var(--accent);
+  background: #fafafa;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+.predmluva p {
+  margin: 0 0 .5rem;
+  text-align: justify;
+  hyphens: auto;
+}
+.predmluva p:last-child { margin-bottom: 0; }
+.predmluva h3, .predmluva h4 {
+  margin: 0 0 .4rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+/* --- Záhlaví článku (název, autor, datum po metadatech a předmluvě) --- */
+.clanek-hlavicka {
+  margin: 2.25rem 0 3.5rem;
+}
+.clanek-title {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 .4rem;
+  padding-bottom: 0;
+  border-bottom: none;
+  letter-spacing: .01em;
+}
+.clanek-autor {
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--ink);
+  margin: 0 0 .25rem;
+}
+.clanek-datum {
+  display: block;
+  font-size: 1rem;
+  color: var(--ink-soft);
+  font-variant: small-caps;
+  letter-spacing: .04em;
+}
+
+/* --- Seznamy textů (novinové záznamy) --- */
+ul.textlist { list-style: none; padding: 0; margin: .5rem 0 1.5rem; }
+ul.textlist > li {
+  padding: .55rem 0;
+  margin: 0;
+  border-bottom: 1px dotted var(--rule-soft);
+}
+ul.textlist > li:first-child { border-top: 1px dotted var(--rule-soft); }
+ul.textlist a { font-size: 1.2rem; font-weight: 600; text-decoration: none; }
+ul.textlist a:hover, ul.textlist a:focus { text-decoration: underline; }
+.detail {
+  display: block;
+  color: var(--ink-soft);
+  font-variant: small-caps;
+  letter-spacing: .04em;
+  font-size: .95rem;
+}
+.skupina { white-space: nowrap; }
+
+/* --- Termíny taxonomií do dvou sloupců (novinový rejstřík) --- */
+ul.terms {
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0 1.5rem;
+  columns: 2;
+  column-gap: 2.5rem;
+}
+ul.terms > li {
+  break-inside: avoid;
+  padding: .2rem 0;
+  border-bottom: 1px dotted var(--rule-soft);
+}
+.desc { color: var(--ink-soft); font-size: .95rem; }
+
+/* --- Metadata jako novinová „legenda“ --- */
+dl.meta {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: .1rem 1.1rem;
+  border-top: 3px double var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: .75rem 0;
+  margin: 1.25rem 0;
+}
+dl.meta dt {
+  font-variant: small-caps;
+  letter-spacing: .05em;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+dl.meta dd { margin: 0; }
+
+/* --- Kapitoly, opravy, patička --- */
+.changelog, .chapter-nav {
+  border-top: 1px solid var(--rule);
+  margin-top: 1.75rem;
+  padding-top: .6rem;
+}
+.chapter-nav {
+  font-variant: small-caps;
+  letter-spacing: .05em;
+}
+.chapter-nav a { margin-right: 1.25rem; }
+
+footer {
+  border-top: 3px double var(--rule);
+  margin-top: 2.5rem;
+  padding: 1rem 0 3rem;
+  font-size: .95rem;
+  font-variant: small-caps;
+  letter-spacing: .05em;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* --- Úzké obrazovky --- */
+@media (max-width: 34rem) {
+  .masthead__burger {
+    display: block;
+    text-align: center;
+    padding: .35rem 0 .45rem;
+    font-size: 1.02rem;
+    letter-spacing: .05em;
+    color: var(--ink);
+    border-top: 1px solid var(--rule);
+  }
+  .masthead__burger:hover,
+  .masthead__toggle:focus-visible ~ .masthead__burger { text-decoration: underline; }
+  .masthead__toggle:focus-visible ~ .masthead__burger { outline: 2px solid var(--accent); }
+  .masthead__nav { display: none; }
+  .masthead__toggle:checked ~ .masthead__nav { display: block; }
+  .masthead__nav ul { flex-direction: column; gap: .2rem; padding: .4rem 0; }
+  .masthead__nav--meta ul { padding: .3rem 0; }
+  ul.terms { columns: 1; }
+  dl.meta { grid-template-columns: 1fr; gap: 0; }
+  dl.meta dt { margin-top: .4rem; }
+  dl.meta dt:first-child { margin-top: 0; }
+}

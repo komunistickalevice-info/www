@@ -1,0 +1,9 @@
+{{ define "main" }}
+<h2>{{ .Title }}</h2>
+{{ .Content }}
+<ul class="textlist">
+{{- range first 30 (sort (.Site.GetPage "/texty").Pages "Date" "desc") }}
+{{ partial "textlist.html" . }}
+{{- end }}
+</ul>
+{{ end }}

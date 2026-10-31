@@ -1,0 +1,48 @@
+{{- /* Zobrazí jeden koncový bod EDTF data (bez rozpětí) česky.
+       Vstup: (dict "s" <řetězec> "mode" "full"|"short")
+       Podporováno: RRRR[-MM[-DD]], ~ ? %, X (neznámé číslice), roční období 21–24.
+       Roky kratší než 1000 se v EDTF píší čtyřmístně (0180), zobrazují se bez nul. */ -}}
+{{- $s := trim (string .s) " " -}}
+{{- $mode := .mode | default "full" -}}
+{{- $q := "" -}}
+{{- if strings.HasSuffix $s "~" -}}
+  {{- $q = site.Data.edtf.approx -}}{{- $s = strings.TrimSuffix "~" $s -}}
+{{- else if strings.HasSuffix $s "%" -}}
+  {{- $q = site.Data.edtf.both -}}{{- $s = strings.TrimSuffix "%" $s -}}
+{{- else if strings.HasSuffix $s "?" -}}
+  {{- $q = site.Data.edtf.uncertain -}}{{- $s = strings.TrimSuffix "?" $s -}}
+{{- end -}}
+{{- $parts := split $s "-" -}}
+{{- $raw := index $parts 0 -}}
+{{- $y := replaceRE "^0+([0-9])" "$1" $raw -}}
+{{- $out := "" -}}
+{{- if strings.Contains $s "X" -}}
+  {{- if strings.Contains $raw "X" -}}
+    {{- $start := replaceRE "^0+([0-9])" "$1" (replace $raw "X" "0") -}}
+    {{- $end := replaceRE "^0+([0-9])" "$1" (replace $raw "X" "9") -}}
+    {{- $out = printf "%s%s%s" $start site.Data.edtf.interval $end -}}
+  {{- else if and (ge (len $parts) 2) (strings.Contains (index $parts 1) "X") -}}
+    {{- $out = $y -}}
+  {{- else -}}
+    {{- $m := int (replaceRE "^0+([0-9])" "$1" (index $parts 1)) -}}
+    {{- $out = printf "%s %s" (index site.Data.months.nominative (sub $m 1)) $y -}}
+  {{- end -}}
+{{- else if eq (len $parts) 3 -}}
+  {{- $m := int (replaceRE "^0+([0-9])" "$1" (index $parts 1)) -}}
+  {{- $d := int (replaceRE "^0+([0-9])" "$1" (index $parts 2)) -}}
+  {{- if eq $mode "short" -}}
+    {{- $out = printf "%s %s" (index site.Data.months.nominative (sub $m 1)) $y -}}
+  {{- else -}}
+    {{- $out = printf "%d. %s %s" $d (index site.Data.months.genitive (sub $m 1)) $y -}}
+  {{- end -}}
+{{- else if eq (len $parts) 2 -}}
+  {{- $m := int (replaceRE "^0+([0-9])" "$1" (index $parts 1)) -}}
+  {{- if and (ge $m 21) (le $m 24) -}}
+    {{- $out = printf "%s %s" (index site.Data.edtf.seasons (sub $m 21)) $y -}}
+  {{- else -}}
+    {{- $out = printf "%s %s" (index site.Data.months.nominative (sub $m 1)) $y -}}
+  {{- end -}}
+{{- else -}}
+  {{- $out = $y -}}
+{{- end -}}
+{{- if $q }}{{ $q }} {{ end }}{{ $out -}}

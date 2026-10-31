@@ -1,0 +1,21 @@
+{{- /* Vrátí číselný klíč pro řazení podle EDTF: RRRR*10000 + MM*100 + DD.
+       Vstup: (dict "s" <řetězec>).
+       Rozpětí se řadí podle počátku; "../X" podle konce; X se bere jako 0;
+       roční období 21–24 se mapuje na měsíc 3/6/9/12. */ -}}
+{{- $s := trim (string .s) " " -}}
+{{- if strings.Contains $s "/" -}}
+  {{- $p := split $s "/" -}}
+  {{- $a := trim (index $p 0) " " -}}
+  {{- $b := trim (index $p 1) " " -}}
+  {{- if eq $a ".." -}}{{ $s = $b }}{{- else -}}{{ $s = $a }}{{- end -}}
+{{- end -}}
+{{- $s = replaceRE "[~?%]$" "" $s -}}
+{{- $s = replace $s "X" "0" -}}
+{{- $parts := split $s "-" -}}
+{{- $y := int (replaceRE "^0+([0-9])" "$1" (index $parts 0)) -}}
+{{- $m := 1 -}}
+{{- if ge (len $parts) 2 -}}{{ $m = int (replaceRE "^0+([0-9])" "$1" (index $parts 1)) }}{{- end -}}
+{{- $d := 1 -}}
+{{- if ge (len $parts) 3 -}}{{ $d = int (replaceRE "^0+([0-9])" "$1" (index $parts 2)) }}{{- end -}}
+{{- if gt $m 12 -}}{{ $m = add (mul (sub $m 21) 3) 3 }}{{- end -}}
+{{- return (add (mul $y 10000) (add (mul $m 100) $d)) -}}

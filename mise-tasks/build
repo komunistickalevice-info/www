@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Sestaví web do public/"
+set -euo pipefail
+
+hugo --minify "$@"
+echo "Hotovo: web je v public/."

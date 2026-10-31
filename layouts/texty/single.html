@@ -1,0 +1,14 @@
+{{ define "main" }}
+<article>
+<h2>{{ .Title }}</h2>
+<div class="obsah-textu">{{ .Content }}</div>
+{{- $chapters := .Parent.Pages.ByWeight }}
+{{- $i := 0 }}
+{{- range $j, $c := $chapters }}{{ if eq $c.RelPermalink $.RelPermalink }}{{ $i = $j }}{{ end }}{{ end }}
+<nav class="chapter-nav" aria-label="{{ site.Data.labels.aria.chapters }}">
+{{- if gt $i 0 }}{{ with index $chapters (sub $i 1) }}<a href="{{ .RelPermalink }}">&larr; {{ .Title }}</a>{{ end }}{{ end }}
+{{- if lt $i (sub (len $chapters) 1) }}{{ with index $chapters (add $i 1) }}<a href="{{ .RelPermalink }}">{{ .Title }} &rarr;</a>{{ end }}{{ end }}
+</nav>
+<p><a href="{{ .Parent.RelPermalink }}">{{ site.Data.labels.text.back_to }} {{ .Parent.Title }}</a></p>
+</article>
+{{ end }}

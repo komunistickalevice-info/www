@@ -1,0 +1,24 @@
+# Centralizované názvy a popisy "skupin" (zdrojů / poskytovatelů).
+# Název se používá v popiscích seznamů textů, popis na stránce skupiny.
+# V textu se odkazuje pouze krátkým identifikátorem (id), např. groups = ["a"].
+
+[[skupina]]
+id    = "komunisticka-levice"
+nazev = "Komunistická levice"
+popis = "Texty mezinárodní komunistické levice."
+
+[[skupina]]
+id    = "marx-engels"
+nazev = "Marx–Engels"
+popis = "Texty Karla Marxe a Bedřicha Engelse."
+
+[[skupina]]
+id    = "lenin"
+nazev = "Lenin"
+popis = "Texty Vladimíra Iljiče Lenina."
+
+[[skupina]]
+id    = "treti-internacionala"
+nazev = "Třetí internacionála"
+popis = "Texty Třetí internacionály."
+

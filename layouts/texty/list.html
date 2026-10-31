@@ -1,0 +1,9 @@
+{{ define "main" }}
+<h2>{{ .Title }}</h2>
+{{ .Content }}
+<ul class="textlist">
+{{- range partial "sort-by-edtf.html" .Pages }}
+{{ partial "textlist.html" . }}
+{{- end }}
+</ul>
+{{ end }}

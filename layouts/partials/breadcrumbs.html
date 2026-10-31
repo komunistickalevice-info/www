@@ -1,0 +1,32 @@
+{{- if not .IsHome }}
+{{- $text := "" }}
+{{- if .Params.groups }}{{ $text = . }}{{ end }}
+{{- range .Ancestors }}{{ if and (not $text) .Params.groups }}{{ $text = . }}{{ end }}{{ end }}
+<nav class="crumbs" aria-label="{{ site.Data.labels.aria.breadcrumbs }}">
+<ol>
+<li><a href="{{ .Site.Home.RelPermalink }}">{{ .Site.Home.Title }}</a></li>
+{{- if $text }}
+  {{- $grp := "" }}
+  {{- with $text.Params.groups }}{{ $grp = partial "group-page.html" (dict "id" (index . 0) "ctx" $) }}{{ end }}
+  {{- with $grp }}
+<li><a href="{{ .RelPermalink }}">{{ partial "pagetitle.html" (dict "page" .) }}</a></li>
+  {{- else }}
+    {{- with $.Site.GetPage "/texty" }}
+<li><a href="{{ .RelPermalink }}">{{ partial "pagetitle.html" (dict "page" .) }}</a></li>
+    {{- end }}
+  {{- end }}
+  {{- if ne $text.RelPermalink $.RelPermalink }}
+<li><a href="{{ $text.RelPermalink }}">{{ $text.Title }}</a></li>
+  {{- end }}
+<li><span aria-current="page">{{ .Title }}</span></li>
+{{- else }}
+  {{- range .Ancestors.Reverse }}
+    {{- if not .IsHome }}
+<li><a href="{{ .RelPermalink }}">{{ partial "pagetitle.html" (dict "page" .) }}</a></li>
+    {{- end }}
+  {{- end }}
+<li><span aria-current="page">{{ partial "pagetitle.html" (dict "page" .) }}</span></li>
+{{- end }}
+</ol>
+</nav>
+{{- end }}

@@ -1,0 +1,27 @@
+{{- /* Zobrazí rok (nebo rozpětí let) z EDTF data — pro nadpisy v přehledu.
+       Vstup: (dict "s" <řetězec>).
+       "1863-11-19" -> "1863"; "1200~" -> "cca 1200";
+       "1942/1943" -> "1942 – 1943"; "../1945" -> "do 1945"; "19XX" -> "1900–1999". */ -}}
+{{- $s := trim (string .s) " " -}}
+{{- $out := "" -}}
+{{- if strings.Contains $s "/" -}}
+  {{- $p := split $s "/" -}}
+  {{- $a := trim (index $p 0) " " -}}
+  {{- $b := trim (index $p 1) " " -}}
+  {{- if eq $a ".." -}}
+    {{- $out = printf "%s %s" site.Data.edtf.open_start (partial "edtf-year-point.html" (dict "s" $b)) -}}
+  {{- else if eq $b ".." -}}
+    {{- $out = printf "%s %s" site.Data.edtf.open_end (partial "edtf-year-point.html" (dict "s" $a)) -}}
+  {{- else -}}
+    {{- $ya := partial "edtf-year-point.html" (dict "s" $a) -}}
+    {{- $yb := partial "edtf-year-point.html" (dict "s" $b) -}}
+    {{- if eq $ya $yb -}}
+      {{- $out = $ya -}}
+    {{- else -}}
+      {{- $out = printf "%s %s %s" $ya site.Data.edtf.interval $yb -}}
+    {{- end -}}
+  {{- end -}}
+{{- else -}}
+  {{- $out = partial "edtf-year-point.html" (dict "s" $s) -}}
+{{- end -}}
+{{- $out -}}

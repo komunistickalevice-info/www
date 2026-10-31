@@ -1,0 +1,8 @@
+{{- /* Zobrazí datum vzniku originálu (EDTF) podle zadané přesnosti.
+       Vstup: (dict "p" <page> "mode" "full" | "short")
+       - full  = "180", "cca 1200", "červen 1200", "15. června 1620", "1940–1945"
+       - short = pro přehledové seznamy (u plného data jen měsíc a rok)
+       Formát data je EDTF (viz layouts/partials/edtf.html). */ -}}
+{{- with .p.Params.original_date -}}
+  {{- partial "edtf.html" (dict "s" . "mode" ($.mode | default "full")) -}}
+{{- end -}}

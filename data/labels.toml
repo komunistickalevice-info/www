@@ -1,0 +1,63 @@
+# data/labels.toml
+# Všechny textové popisky (názvy) používané v šablonách na jednom místě.
+# V šablonách se čtou jako: {{ site.Data.labels.<sekce>.<klíč> }}
+# (Názvy skupin jsou zvlášť v data/skupiny.toml.)
+
+[skip]
+content = "Přeskočit na obsah"
+
+[menu]
+# Názvy položek hlavního menu jsou v config.toml (sekce [menu]).
+# Zde zůstává jen odkaz v patičce a popisek tlačítka nabídky.
+about  = "O projektu"
+toggle = "Nabídka"
+
+[aria]
+main        = "Hlavní nabídka"
+browse      = "Prohlížení archivu"
+menu_toggle = "Zobrazit nebo skrýt nabídku"
+breadcrumbs = "Drobečková navigace"
+chapters    = "Kapitoly"
+
+[home]
+latest      = "Nově přidané"
+all_updates = "Všechny nově přidané…"
+by_group    = "Podle skupiny"
+browse      = "Procházet"
+all_texts   = "Všechny texty"
+by_author   = "Podle autora"
+chronology  = "Chronologicky"
+errata      = "Opravy a doplnění"
+
+[text]
+chapters      = "Kapitoly"
+start_reading = "Začít číst →"
+back_to       = "Zpět na dílo:"
+changelog     = "Opravy"
+
+[meta]
+title          = "Název"
+author         = "Autor"
+original_title = "Původní název"
+language       = "Jazyk originálu"
+original_date  = "Datum vzniku"
+original_year  = "Rok vzniku"
+original_period = "Období vzniku"
+translator     = "Překladatel"
+source         = "Zdroj"
+citation       = "Citace"
+period         = "Období"
+tags           = "Štítky"
+added          = "Přidáno"
+updated        = "Naposledy upraveno"
+note           = "Poznámka"
+
+[updates]
+last_edited = "Naposledy upraveno"
+empty       = "Zatím nejsou evidovány žádné opravy."
+
+[taxonomy]
+authors = "Autoři"
+
+[chronology]
+unknown = "Neznámé datum"

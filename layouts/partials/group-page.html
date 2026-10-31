@@ -1,0 +1,7 @@
+{{- /* Najde stránku skupiny podle jejího `group` identifikátoru.
+       Vstup: (dict "id" <id> "ctx" <page>). Vrací stránku, nebo false. */ -}}
+{{- $id := .id -}}
+{{- $pages := where .ctx.Site.RegularPages "Params.group" $id -}}
+{{- $page := false -}}
+{{- if $pages -}}{{- $page = index $pages 0 -}}{{- end -}}
+{{- return $page -}}

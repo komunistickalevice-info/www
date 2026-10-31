@@ -1,0 +1,9 @@
+# Nástroje projektu (viz https://mise.jdx.dev)
+# Verze odpovídají CI (.github/workflows/gh-pages.yml).
+[tools]
+hugo-extended = "0.128.0"
+
+# Úkoly (tasky) jsou file tasky v adresáři mise-tasks/:
+#   mise run build           sestavení webu do public/
+#   mise run serve           místní náhled (hugo server)
+#   mise run check-content   kontrola povinných metadat textů

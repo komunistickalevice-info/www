@@ -1,0 +1,20 @@
+{{- /* Zobrazí rok (bez měsíce/dne) z jednoho koncového bodu EDTF data.
+       Vstup: (dict "s" <řetězec>).
+       Zachová značku přibližnosti/nejistoty a rozsah neznámých číslic. */ -}}
+{{- $s := trim (string .s) " " -}}
+{{- $q := "" -}}
+{{- if strings.HasSuffix $s "~" -}}
+  {{- $q = site.Data.edtf.approx -}}{{- $s = strings.TrimSuffix "~" $s -}}
+{{- else if strings.HasSuffix $s "%" -}}
+  {{- $q = site.Data.edtf.both -}}{{- $s = strings.TrimSuffix "%" $s -}}
+{{- else if strings.HasSuffix $s "?" -}}
+  {{- $q = site.Data.edtf.uncertain -}}{{- $s = strings.TrimSuffix "?" $s -}}
+{{- end -}}
+{{- $raw := index (split $s "-") 0 -}}
+{{- $y := $raw -}}
+{{- if strings.Contains $raw "X" -}}
+  {{- $y = printf "%s%s%s" (replaceRE "^0+([0-9])" "$1" (replace $raw "X" "0")) site.Data.edtf.interval (replaceRE "^0+([0-9])" "$1" (replace $raw "X" "9")) -}}
+{{- else -}}
+  {{- $y = replaceRE "^0+([0-9])" "$1" $raw -}}
+{{- end -}}
+{{- if $q }}{{ $q }} {{ end }}{{ $y -}}

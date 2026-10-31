@@ -1,0 +1,16 @@
+# data/months.toml
+# České názvy měsíců pro zobrazení data vzniku (originálu).
+# V šablonách se čtou jako: {{ index site.Data.months.<pole> (sub (int .Month) 1) }}
+#   nominative = samostatný měsíc ("červen 1200")
+#   genitive   = měsíc v plném datu ("15. června 1620")
+# Datum vzniku je v čele souboru datum (TOML), neznámé části se doplňují "01".
+
+nominative = [
+  "leden", "únor", "březen", "duben", "květen", "červen",
+  "červenec", "srpen", "září", "říjen", "listopad", "prosinec",
+]
+
+genitive = [
+  "ledna", "února", "března", "dubna", "května", "června",
+  "července", "srpna", "září", "října", "listopadu", "prosince",
+]

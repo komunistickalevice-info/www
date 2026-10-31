@@ -1,0 +1,23 @@
+{{ define "main" }}
+<h2>{{ .Title }}</h2>
+{{ .Content }}
+{{- $opravy := slice }}
+{{- range (.Site.GetPage "/texty").Pages }}
+  {{- if gt .Lastmod.Unix .Date.Unix }}{{ $opravy = $opravy | append . }}{{ end }}
+{{- end }}
+{{- if $opravy }}
+<ul class="textlist">
+{{- range sort $opravy "Lastmod" "desc" }}
+  {{- $p := . }}
+  <li>
+    <a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
+    <span class="detail">&mdash; {{ delimit $p.Params.authors ", " }}{{ with $p.Params.original_date }}, {{ partial "original-date.html" (dict "p" $p "mode" "short") }}{{ end }}{{ with $p.Params.groups }} <span class="skupina">[{{ partial "skupina-label.html" (dict "id" (index . 0) "ctx" $p) }}]</span>{{ end }}</span>
+    <div class="desc">{{ site.Data.labels.updates.last_edited }} {{ $p.Lastmod.Format "2. 1. 2006" }}.</div>
+    {{ partial "changelog.html" $p }}
+  </li>
+{{- end }}
+</ul>
+{{- else }}
+<p>{{ site.Data.labels.updates.empty }}</p>
+{{- end }}
+{{ end }}

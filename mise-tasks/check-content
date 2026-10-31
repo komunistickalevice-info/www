@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#MISE description="Ověří, že každý text (content/texty/<slug>/_index.md nebo content/texty/<slug>.md) má povinná metadata a platné EDTF datum"
+# Hugo chybějící taxonomii neohlásí, proto tato kontrola.
+set -u
+
+fail=0
+shopt -s nullglob
+# Povolená podmnožina EDTF: RRRR[-MM[-DD]], ~ ? %, X (neznámé číslice), rozpětí A/B, otevřené ../X a X/..
+edtf='^([0-9X]{4}(-[0-9X]{2}(-[0-9X]{2})?)?[~?%]?|\.\.)(/([0-9X]{4}(-[0-9X]{2}(-[0-9X]{2})?)?[~?%]?|\.\.))?$'
+for f in content/texty/*/_index.md content/texty/*.md; do
+  [ "$f" = "content/texty/_index.md" ] && continue
+  for key in title authors original_date groups date; do
+    if ! grep -qE "^${key}[[:space:]]*=" "$f"; then
+      echo "CHYBA: $f neobsahuje povinný klíč '${key}'" >&2
+      fail=1
+    fi
+  done
+  for key in original_date_precision original_date_circa; do
+    if grep -qE "^${key}[[:space:]]*=" "$f"; then
+      echo "CHYBA: $f obsahuje zrušený klíč '${key}' (datum se zadává jako EDTF do 'original_date')" >&2
+      fail=1
+    fi
+  done
+  d=$(grep -oE '^original_date[[:space:]]*=[[:space:]]*"[^"]*"' "$f" | sed -E 's/^original_date[[:space:]]*=[[:space:]]*"([^"]*)"$/\1/')
+  if [ -z "$d" ]; then
+    echo "CHYBA: $f neobsahuje platné 'original_date' (očekáván řetězec v uvozovkách)" >&2
+    fail=1
+  elif ! printf '%s' "$d" | grep -qE "$edtf"; then
+    echo "CHYBA: $f má neplatné EDTF datum '$d' v 'original_date'" >&2
+    fail=1
+  fi
+done
+
+if [ "$fail" -eq 0 ]; then
+  echo "OK: všechna metadata jsou v pořádku."
+fi
+exit "$fail"

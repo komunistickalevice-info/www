@@ -1,0 +1,21 @@
+{{- /* Převede EDTF datum (original_date) na český text.
+       Vstup: (dict "s" <řetězec> "mode" "full"|"short")
+       Rozpětí oddělené "/" se vykreslí jako "A – B"; "../X" jako "do X", "X/.." jako "od X". */ -}}
+{{- $s := trim (string .s) " " -}}
+{{- $mode := .mode | default "full" -}}
+{{- $out := "" -}}
+{{- if strings.Contains $s "/" -}}
+  {{- $p := split $s "/" -}}
+  {{- $a := trim (index $p 0) " " -}}
+  {{- $b := trim (index $p 1) " " -}}
+  {{- if eq $a ".." -}}
+    {{- $out = printf "%s %s" site.Data.edtf.open_start (partial "edtf-point.html" (dict "s" $b "mode" $mode)) -}}
+  {{- else if eq $b ".." -}}
+    {{- $out = printf "%s %s" site.Data.edtf.open_end (partial "edtf-point.html" (dict "s" $a "mode" $mode)) -}}
+  {{- else -}}
+    {{- $out = printf "%s %s %s" (partial "edtf-point.html" (dict "s" $a "mode" $mode)) site.Data.edtf.interval (partial "edtf-point.html" (dict "s" $b "mode" $mode)) -}}
+  {{- end -}}
+{{- else -}}
+  {{- $out = partial "edtf-point.html" (dict "s" $s "mode" $mode) -}}
+{{- end -}}
+{{- $out -}}

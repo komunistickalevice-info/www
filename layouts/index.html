@@ -1,0 +1,28 @@
+{{ define "main" }}
+<div class="intro">{{ .Content }}</div>
+
+<h2>{{ site.Data.labels.home.latest }}</h2>
+<ul class="textlist">
+{{- range first 5 (sort (.Site.GetPage "/texty").Pages "Date" "desc") }}
+{{ partial "textlist.html" . }}
+{{- end }}
+</ul>
+<p><a href="{{ "nove/" | relURL }}">{{ site.Data.labels.home.all_updates }}</a></p>
+
+<h2>{{ site.Data.labels.home.by_group }}</h2>
+<ul class="terms">
+{{- range .Site.Data.skupiny.skupina }}
+  {{- $id := .id }}
+  {{- $gp := partial "group-page.html" (dict "id" $id "ctx" $) }}
+  <li><a href="{{ with $gp }}{{ .RelPermalink }}{{ else }}{{ printf "skupina-%s/" $id | relURL }}{{ end }}">{{ .nazev }}</a>{{ with $gp }} ({{ len (partial "group-texts.html" (dict "id" $id "ctx" $)) }}){{ end }}</li>
+{{- end }}
+</ul>
+
+<h2>{{ site.Data.labels.home.browse }}</h2>
+<ul>
+<li><a href="{{ "texty/" | relURL }}">{{ site.Data.labels.home.all_texts }}</a></li>
+<li><a href="{{ "autori/" | relURL }}">{{ site.Data.labels.home.by_author }}</a></li>
+<li><a href="{{ "chronologicky/" | relURL }}">{{ site.Data.labels.home.chronology }}</a></li>
+<li><a href="{{ "opravy/" | relURL }}">{{ site.Data.labels.home.errata }}</a></li>
+</ul>
+{{ end }}

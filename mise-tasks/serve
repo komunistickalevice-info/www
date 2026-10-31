@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Místní náhled na http://localhost:1313/"
+set -euo pipefail
+
+hugo server "$@"

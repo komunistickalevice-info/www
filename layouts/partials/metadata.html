@@ -1,0 +1,51 @@
+<dl class="meta">
+<dt>{{ site.Data.labels.meta.title }}</dt>
+<dd>{{ .Title }}</dd>
+<dt>{{ site.Data.labels.meta.author }}</dt>
+<dd><a href="{{ printf "autori/%s/" (index .Params.authors 0 | urlize) | relURL }}">{{ delimit .Params.authors ", " }}</a></dd>
+{{- with .Params.original_title }}
+<dt>{{ site.Data.labels.meta.original_title }}</dt>
+<dd>{{ . }}</dd>
+{{- end }}
+{{- with .Params.languages }}
+<dt>{{ site.Data.labels.meta.language }}</dt>
+<dd>{{ delimit . ", " }}</dd>
+{{- end }}
+{{- with .Params.original_date }}
+{{- $label := site.Data.labels.meta.original_date }}
+{{- if strings.Contains . "/" }}{{ $label = site.Data.labels.meta.original_period }}
+{{- else if not (strings.Contains . "-") }}{{ $label = site.Data.labels.meta.original_year }}{{ end }}
+<dt>{{ $label }}</dt>
+<dd>{{ partial "original-date.html" (dict "p" $ "mode" "full") }}</dd>
+{{- end }}
+{{- with .Params.translator }}
+<dt>{{ site.Data.labels.meta.translator }}</dt>
+<dd>{{ . }}</dd>
+{{- end }}
+{{- with .Params.source_name }}
+<dt>{{ site.Data.labels.meta.source }}</dt>
+<dd>{{ if $.Params.source_url }}<a href="{{ $.Params.source_url }}">{{ . }}</a>{{ else }}{{ . }}{{ end }}</dd>
+{{- end }}
+{{- with .Params.source_citation }}
+<dt>{{ site.Data.labels.meta.citation }}</dt>
+<dd>{{ . }}</dd>
+{{- end }}
+{{- with .Params.period }}
+<dt>{{ site.Data.labels.meta.period }}</dt>
+<dd>{{ . }}</dd>
+{{- end }}
+{{- with .Params.tags }}
+<dt>{{ site.Data.labels.meta.tags }}</dt>
+<dd>{{ delimit . ", " }}</dd>
+{{- end }}
+<dt>{{ site.Data.labels.meta.added }}</dt>
+<dd>{{ .Date.Format "2. 1. 2006" }}</dd>
+{{- if gt .Lastmod.Unix .Date.Unix }}
+<dt>{{ site.Data.labels.meta.updated }}</dt>
+<dd>{{ .Lastmod.Format "2. 1. 2006" }}</dd>
+{{- end }}
+{{- with .Params.note }}
+<dt>{{ site.Data.labels.meta.note }}</dt>
+<dd>{{ . }}</dd>
+{{- end }}
+</dl>

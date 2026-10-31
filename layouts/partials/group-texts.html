@@ -1,0 +1,6 @@
+{{- /* Vrátí texty patřící do skupiny (podle `groups` v metadatech textu),
+       seřazené od nejstaršího podle EDTF data.
+       Vstup: (dict "id" <id> "ctx" <page>). */ -}}
+{{- $id := .id -}}
+{{- $pages := where (.ctx.Site.GetPage "/texty").Pages "Params.groups" "intersect" (slice $id) -}}
+{{- return (partial "sort-by-edtf.html" $pages) -}}

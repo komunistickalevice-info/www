@@ -1,0 +1,13 @@
+{{ define "main" }}
+{{- $id := .Params.group }}
+{{- $popis := "" }}
+{{- range .Site.Data.skupiny.skupina }}{{ if eq .id $id }}{{ $popis = .popis }}{{ end }}{{ end }}
+<h2>{{ .Title }}</h2>
+{{- with $popis }}<p class="desc">{{ . }}</p>{{ end }}
+{{- with .Content }}{{ . }}{{ end }}
+<ul class="textlist">
+{{- range partial "group-texts.html" (dict "id" $id "ctx" .) }}
+{{ partial "textlist.html" (dict "page" . "hideGroup" true) }}
+{{- end }}
+</ul>
+{{ end }}

@@ -1,0 +1,6 @@
+{{- $p := .page -}}
+{{- $title := $p.Title -}}
+{{- if eq $p.Kind "taxonomy" -}}
+  {{- with index site.Data.labels.taxonomy $p.Data.Plural }}{{ $title = . }}{{ end -}}
+{{- end -}}
+{{- $title -}}

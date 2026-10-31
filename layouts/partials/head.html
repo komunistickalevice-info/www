@@ -1,0 +1,8 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} &ndash; {{ .Site.Title }}{{ end }}</title>
+{{- with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+<link rel="preload" as="font" type="font/woff2" href="{{ "fonts/eb-garamond-latin.woff2" | relURL }}" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="{{ "fonts/eb-garamond-latin-ext.woff2" | relURL }}" crossorigin>
+<link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+<link rel="canonical" href="{{ .Permalink }}">

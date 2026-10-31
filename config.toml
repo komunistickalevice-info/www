@@ -1,0 +1,63 @@
+baseURL = "https://komunistickalevice-info.github.io/www/"
+languageCode = "cs-cz"
+defaultContentLanguage = "cs"
+title = "komunistickalevice.info"
+enableRobotsTXT = true
+removePathAccents = true
+disableKinds = ["sitemap"]
+ignoreFiles = ['_predmluva\.md$', 'README\.md$']
+
+[taxonomies]
+  autor = "authors"
+
+# Anglický klíč v taxonomii, ale české (a stabilní) URL adresy.
+[permalinks]
+  [permalinks.taxonomy]
+    authors = "/autori/"
+  [permalinks.term]
+    authors = "/autori/:slug/"
+
+# Hlavní navigace. Všechny položky jsou statické, proto žijí zde.
+# `url` bez úvodního lomítka projde přes relURL (funguje i s podcestou v baseURL).
+[menu]
+  [[menu.main]]
+    name   = "Komunistická levice"
+    url    = "komunisticka-levice/"
+    weight = 10
+  [[menu.main]]
+    name   = "Marx–Engels"
+    url    = "marx-engels/"
+    weight = 20
+  [[menu.main]]
+    name   = "Lenin"
+    url    = "lenin/"
+    weight = 30
+  [[menu.main]]
+    name   = "Třetí internacionála"
+    url    = "treti-internacionala/"
+    weight = 40
+
+  [[menu.meta]]
+    name   = "Nově přidané"
+    url    = "nove/"
+    weight = 10
+  [[menu.meta]]
+    name   = "Opravy"
+    url    = "opravy/"
+    weight = 20
+  [[menu.meta]]
+    name   = "Autoři"
+    url    = "autori/"
+    weight = 30
+  [[menu.meta]]
+    name   = "Chronologicky"
+    url    = "chronologicky/"
+    weight = 40
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = false
+
+[params]
+#  description = "Revoluční marxismus očištěný od špíny a překroucení"
+  description = "Archiv textů mezinárodní komunistické levice"

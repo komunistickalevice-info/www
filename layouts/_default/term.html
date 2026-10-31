@@ -1,0 +1,10 @@
+{{ define "main" }}
+{{- $title := partial "pagetitle.html" (dict "page" .) }}
+<h2>{{ $title }}</h2>
+{{- with .Content }}{{ . }}{{ end }}
+<ul class="textlist">
+{{- range partial "sort-by-edtf.html" .Pages }}
+{{ partial "textlist.html" . }}
+{{- end }}
+</ul>
+{{ end }}

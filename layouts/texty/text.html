@@ -1,0 +1,41 @@
+{{ define "main" }}
+<article>
+{{ partial "metadata.html" . }}
+
+{{- if .File }}
+{{- $predmluvaPath := path.Join "content" .File.Dir "_predmluva.md" }}
+{{- if fileExists $predmluvaPath }}
+{{- with trim (readFile $predmluvaPath) " \r\n\t" }}
+<aside class="predmluva">
+{{ . | $.RenderString }}
+</aside>
+{{- end }}
+{{- end }}
+{{- end }}
+
+<header class="clanek-hlavicka">
+  <h1 class="clanek-title">{{ .Title }}</h1>
+  {{- with .Params.authors }}
+  <div class="clanek-autor">{{ delimit . ", " }}</div>
+  {{- end }}
+  {{- with .Params.original_date }}
+  <time class="clanek-datum" datetime="{{ . }}">{{ partial "original-date.html" (dict "p" $ "mode" "full") }}</time>
+  {{- end }}
+</header>
+
+{{- with .Content }}<div class="uvod">{{ . }}</div>{{ end }}
+
+{{- with .Pages }}
+<h3>{{ site.Data.labels.text.chapters }}</h3>
+<ol>
+{{- range .ByWeight }}
+  <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+{{- end }}
+</ol>
+{{- $first := index (.ByWeight) 0 }}
+<p><a href="{{ $first.RelPermalink }}">{{ site.Data.labels.text.start_reading }}</a></p>
+{{- end }}
+
+{{ partial "changelog.html" . }}
+</article>
+{{ end }}

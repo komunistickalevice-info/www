@@ -1,0 +1,14 @@
+# data/edtf.toml
+# České překlady značek formátu EDTF (ISO 8601-2) používaných pro original_date.
+# V šablonách se čte jako: {{ site.Data.edtf.<klíč> }}.
+# Vlastní syntaxe data je v contentech; zde jsou jen slovní ekvivalenty.
+
+approx     = "cca"        # 1200~   (přibližné)
+uncertain  = "snad"       # 1200?   (nejisté)
+both       = "snad cca"   # 1200%   (nejisté i přibližné)
+interval   = "–"          # 1940/1945  (pomlčka mezi konci rozpětí)
+open_start = "do"         # ../1945 (otevřené na začátku)
+open_end   = "od"         # 1940/.. (otevřené na konci)
+
+# Roční období: EDTF měsíce 21–24 (21 = jaro … 24 = zima).
+seasons = ["jaro", "léto", "podzim", "zima"]

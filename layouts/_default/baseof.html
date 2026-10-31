@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="cs">
+<head>
+{{ partial "head.html" . }}
+</head>
+<body>
+<a class="skip" href="#obsah">{{ site.Data.labels.skip.content }}</a>
+{{ partial "header.html" . }}
+<main id="obsah">
+{{ partial "breadcrumbs.html" . }}
+{{ block "main" . }}{{ end }}
+</main>
+{{ partial "footer.html" . }}
+</body>
+</html>

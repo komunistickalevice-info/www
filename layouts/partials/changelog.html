@@ -1,0 +1,11 @@
+{{- with .Params.corrections }}
+<section class="changelog">
+<h3>{{ site.Data.labels.text.changelog }}</h3>
+<ul>
+{{- range . }}
+{{- $t := time .date }}
+<li><time datetime="{{ $t.Format "2006-01-02" }}">{{ $t.Format "2. 1. 2006" }}</time> &mdash; {{ .note }}</li>
+{{- end }}
+</ul>
+</section>
+{{- end }}

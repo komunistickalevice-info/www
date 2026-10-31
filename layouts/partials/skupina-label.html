@@ -1,0 +1,6 @@
+{{- $id := .id -}}
+{{- $label := $id -}}
+{{- range .ctx.Site.Data.skupiny.skupina -}}
+  {{- if eq .id $id -}}{{- $label = .nazev -}}{{- end -}}
+{{- end -}}
+{{- $label -}}
